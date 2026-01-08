@@ -1,0 +1,15 @@
+creation_timestamp: 1767829378285
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1767829378285
+model_id: m-35883f7b869a46d593136f49dd8a3afe
+name: bank-churn-classifier
+run_id: d16a961c14474f8fb1bbda1dcc1cd8be
+run_link: null
+source: models:/m-35883f7b869a46d593136f49dd8a3afe
+status: READY
+status_message: null
+storage_location: file:///C:/Users/Mode-/bank-churn-mlops/mlruns/355444742376223585/models/m-35883f7b869a46d593136f49dd8a3afe/artifacts
+user_id: null
+version: 2

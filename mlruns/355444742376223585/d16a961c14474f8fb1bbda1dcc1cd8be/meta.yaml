@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/Mode-/bank-churn-mlops/mlruns/355444742376223585/d16a961c14474f8fb1bbda1dcc1cd8be/artifacts
+end_time: 1767829378385
+entry_point_name: ''
+experiment_id: '355444742376223585'
+lifecycle_stage: active
+run_id: d16a961c14474f8fb1bbda1dcc1cd8be
+run_name: random-forest-v1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767829362569
+status: 3
+tags: []
+user_id: hp

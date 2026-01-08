@@ -1,0 +1,49 @@
+name: CI-CD
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: bank-churn-api
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: ACR Login Server
+        run: echo "ACR_LOGIN_SERVER=$(az acr show --name $ACR_NAME --query loginServer -o tsv)" >> $GITHUB_ENV
+        env:
+          ACR_NAME: ${{ secrets.ACR_NAME }}
+
+      - name: ACR Login
+        run: az acr login --name $ACR_NAME
+        env:
+          ACR_NAME: ${{ secrets.ACR_NAME }}
+
+      - name: Build and Push
+        run: |
+          docker build -t $ACR_LOGIN_SERVER/$IMAGE_NAME:$GITHUB_SHA .
+          docker push $ACR_LOGIN_SERVER/$IMAGE_NAME:$GITHUB_SHA
+          docker tag $ACR_LOGIN_SERVER/$IMAGE_NAME:$GITHUB_SHA $ACR_LOGIN_SERVER/$IMAGE_NAME:latest
+          docker push $ACR_LOGIN_SERVER/$IMAGE_NAME:latest
+
+      - name: Deploy
+        run: |
+          az containerapp update \
+            -n $CONTAINER_APP_NAME \
+            -g $RESOURCE_GROUP \
+            --image $ACR_LOGIN_SERVER/$IMAGE_NAME:$GITHUB_SHA
+        env:
+          RESOURCE_GROUP: ${{ secrets.RESOURCE_GROUP }}
+          CONTAINER_APP_NAME: ${{ secrets.CONTAINER_APP_NAME }}
